@@ -1,10 +1,11 @@
 import './App.css'
+import Page from './app/dashboard/page'
 
 function App() {
 
   return (
     <>
-      <p>I am batman</p>
+      <Page />
     </>
   )
 }
