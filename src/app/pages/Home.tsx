@@ -1,4 +1,5 @@
 import { BiMoneyWithdraw } from "react-icons/bi";
+import { Link } from "react-router-dom";
 
 function Home() {
   return (
@@ -32,7 +33,7 @@ function Home() {
         <p className="text-sm">Your finances, organized and simplified.</p>
         <div className="flex mt-2 gap-2">
           <button className="bg-[#615AE9] text-white px-4 py-1 rounded-lg cursor-pointer">
-            Get Started
+            <Link to="/dashboard">Get Started</Link>
           </button>
           <button className="bg-gray-100 text-black px-4 py-1 rounded-lg cursor-pointer">
             Switch Theme
