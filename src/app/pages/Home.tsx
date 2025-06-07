@@ -36,11 +36,11 @@ function Home() {
         </div>
 
         {/* Tagline */}
-        <p className="text-sm text-muted-foreground">
+        <p className="text-sm text-muted-foreground font-inter mt-2">
           Your finances, organized and simplified.
         </p>
 
-        <div className="flex mt-4 gap-2">
+        <div className="flex mt-6 gap-2">
           <Button asChild>
             <Link to="/dashboard">Get Started</Link>
           </Button>
