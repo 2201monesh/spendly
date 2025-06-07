@@ -1,5 +1,6 @@
 import './App.css'
-import Page from './app/dashboard/page'
+import Home from './app/pages/Home'
+import Page from './app/pages/page'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
 function App() {
@@ -7,8 +8,8 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Page />} />
-        {/* <Route path="/analytics" element={<AnalyticsPage />} /> */}
+        <Route path="/dashboard" element={<Page />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </BrowserRouter>
   )
