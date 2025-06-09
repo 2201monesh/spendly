@@ -1,4 +1,5 @@
 import { IconCirclePlusFilled, IconMail, type Icon } from "@tabler/icons-react";
+import { Link } from "react-router-dom";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -43,10 +44,17 @@ export function NavMain({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title}>
+              {/* <SidebarMenuButton tooltip={item.title}>
                 {item.icon && <item.icon />}
                 <span>{item.title}</span>
-              </SidebarMenuButton>
+              </SidebarMenuButton> */}
+              <Link
+                to={item.url}
+                className="flex items-center gap-2 w-full px-3 py-2 rounded hover:bg-muted transition text-sm"
+              >
+                {item.icon && <item.icon className="size-5" />}
+                <span>{item.title}</span>
+              </Link>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
