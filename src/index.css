@@ -2,11 +2,6 @@
 @import "tw-animate-css";
 @custom-variant dark (&:where(.dark, .dark *));
 
-*{
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
-}
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -122,4 +117,8 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+@theme {
+  --font-instrument: "Instrument Serif", serif;
 }
