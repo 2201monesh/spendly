@@ -5,6 +5,8 @@ import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import { LoginForm } from "./components/login-form";
 import { SignupForm } from "./components/signup-form";
+import Dashboard from "./pages/Dashboard";
+import ProtectedRoute from "./routes/ProtectedRoute";
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
@@ -15,6 +17,14 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/signup" element={<SignupForm />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
