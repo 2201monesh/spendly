@@ -1,3 +1,7 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,8 +17,42 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { supabase } from "@/lib/supabaseClient";
 
 export function SignupForm({ ...props }) {
+  const { signup } = useAuth();
+  const navigate = useNavigate();
+
+  const [form, setForm] = useState({
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (form.password !== form.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+
+    const { error } = await signup(form.email, form.password);
+    // await supabase.from("profiles").insert({
+    //   id: data.user.id,
+    //   full_name: form.name,
+    // });
+
+    if (error) {
+      alert(error.message);
+      return;
+    }
+
+    // redirect on success
+    navigate("/dashboard");
+  };
+
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
@@ -25,8 +63,9 @@ export function SignupForm({ ...props }) {
               Enter your information below to create your account
             </CardDescription>
           </CardHeader>
+
           <CardContent>
-            <form>
+            <form onSubmit={handleSubmit}>
               <FieldGroup>
                 <Field>
                   <FieldLabel htmlFor="name">Full Name</FieldLabel>
@@ -35,8 +74,10 @@ export function SignupForm({ ...props }) {
                     type="text"
                     placeholder="John Doe"
                     required
+                    onChange={(e) => setForm({ ...form, name: e.target.value })}
                   />
                 </Field>
+
                 <Field>
                   <FieldLabel htmlFor="email">Email</FieldLabel>
                   <Input
@@ -44,36 +85,51 @@ export function SignupForm({ ...props }) {
                     type="email"
                     placeholder="m@example.com"
                     required
+                    onChange={(e) =>
+                      setForm({ ...form, email: e.target.value })
+                    }
                   />
-                  <FieldDescription>
-                    We&apos;ll use this to contact you. We will not share your
-                    email with anyone else.
-                  </FieldDescription>
                 </Field>
+
                 <Field>
                   <FieldLabel htmlFor="password">Password</FieldLabel>
-                  <Input id="password" type="password" required />
-                  <FieldDescription>
-                    Must be at least 8 characters long.
-                  </FieldDescription>
+                  <Input
+                    id="password"
+                    type="password"
+                    required
+                    onChange={(e) =>
+                      setForm({ ...form, password: e.target.value })
+                    }
+                  />
                 </Field>
+
                 <Field>
                   <FieldLabel htmlFor="confirm-password">
                     Confirm Password
                   </FieldLabel>
-                  <Input id="confirm-password" type="password" required />
-                  <FieldDescription>
-                    Please confirm your password.
-                  </FieldDescription>
+                  <Input
+                    id="confirm-password"
+                    type="password"
+                    required
+                    onChange={(e) =>
+                      setForm({ ...form, confirmPassword: e.target.value })
+                    }
+                  />
                 </Field>
+
                 <FieldGroup>
-                  <Field>
+                  <Field className="flex flex-col gap-3">
                     <Button type="submit">Create Account</Button>
+
                     <Button variant="outline" type="button">
                       Sign up with Google
                     </Button>
+
                     <FieldDescription className="px-6 text-center">
-                      Already have an account? <a href="#">Sign in</a>
+                      Already have an account?{" "}
+                      <a href="/login" className="underline">
+                        Sign in
+                      </a>
                     </FieldDescription>
                   </Field>
                 </FieldGroup>

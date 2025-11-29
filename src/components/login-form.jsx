@@ -1,3 +1,5 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
@@ -14,8 +16,47 @@ import {
   FieldLabel,
 } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
+import { supabase } from "@/lib/supabaseClient";
 
 export function LoginForm({ className, ...props }) {
+  const navigate = useNavigate();
+
+  // form state
+  const [form, setForm] = useState({
+    email: "",
+    password: "",
+  });
+
+  const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState("");
+
+  // Handle input fields
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.id]: e.target.value });
+  };
+
+  // Handle Login
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setErrorMsg("");
+    setLoading(true);
+
+    const { error } = await supabase.auth.signInWithPassword({
+      email: form.email,
+      password: form.password,
+    });
+
+    setLoading(false);
+
+    if (error) {
+      setErrorMsg(error.message);
+      return;
+    }
+
+    // Success → redirect
+    navigate("/dashboard");
+  };
+
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
       <div className="w-full max-w-sm">
@@ -27,9 +68,14 @@ export function LoginForm({ className, ...props }) {
                 Enter your email below to login to your account
               </CardDescription>
             </CardHeader>
+
             <CardContent>
-              <form>
+              <form onSubmit={handleLogin}>
                 <FieldGroup>
+                  {errorMsg && (
+                    <p className="text-red-500 text-sm mb-2">{errorMsg}</p>
+                  )}
+
                   <Field>
                     <FieldLabel htmlFor="email">Email</FieldLabel>
                     <Input
@@ -37,8 +83,11 @@ export function LoginForm({ className, ...props }) {
                       type="email"
                       placeholder="m@example.com"
                       required
+                      value={form.email}
+                      onChange={handleChange}
                     />
                   </Field>
+
                   <Field>
                     <div className="flex items-center">
                       <FieldLabel htmlFor="password">Password</FieldLabel>
@@ -46,18 +95,32 @@ export function LoginForm({ className, ...props }) {
                         href="#"
                         className="ml-auto inline-block text-sm underline-offset-4 hover:underline"
                       >
-                        Forgot your password?
+                        Forgot password?
                       </a>
                     </div>
-                    <Input id="password" type="password" required />
+                    <Input
+                      id="password"
+                      type="password"
+                      required
+                      value={form.password}
+                      onChange={handleChange}
+                    />
                   </Field>
+
                   <Field>
-                    <Button type="submit">Login</Button>
+                    <Button type="submit" disabled={loading}>
+                      {loading ? "Logging in..." : "Login"}
+                    </Button>
+
                     <Button variant="outline" type="button">
                       Login with Google
                     </Button>
+
                     <FieldDescription className="text-center">
-                      Don&apos;t have an account? <a href="#">Sign up</a>
+                      Don&apos;t have an account?{" "}
+                      <a href="/signup" className="underline">
+                        Sign up
+                      </a>
                     </FieldDescription>
                   </Field>
                 </FieldGroup>
