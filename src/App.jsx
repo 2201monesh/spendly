@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./auth/Login";
 import Signup from "./auth/Signup";
 import { LoginForm } from "./components/login-form";
+import { SignupForm } from "./components/signup-form";
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
@@ -13,7 +14,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/signup" element={<Signup />} />
+        <Route path="/signup" element={<SignupForm />} />
       </Routes>
     </BrowserRouter>
   );
