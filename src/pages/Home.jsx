@@ -1,9 +1,11 @@
 import React from "react";
 import { useTheme } from "../context/ThemeContext";
 import { Button } from "@/components/ui/button.jsx";
+import { useNavigate } from "react-router-dom";
 
 function Home() {
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
   return (
     <div
@@ -70,10 +72,18 @@ function Home() {
         </button>
 
         <div className="flex gap-4 mt-6">
-          <Button variant="outline" className="cursor-pointer">
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={() => navigate("/signup")}
+          >
             Signup
           </Button>
-          <Button variant="outline" className="cursor-pointer">
+          <Button
+            variant="outline"
+            className="cursor-pointer"
+            onClick={() => navigate("/login")}
+          >
             Login
           </Button>
         </div>
