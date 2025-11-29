@@ -68,7 +68,7 @@ function Home() {
             bg-gray-200 dark:bg-gray-800
           "
         >
-          Toggle Theme ({theme})
+          <span className="cursor-pointer">Switch Theme</span>
         </button>
 
         <div className="flex gap-4 mt-6">
