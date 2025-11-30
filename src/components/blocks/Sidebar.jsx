@@ -23,7 +23,10 @@ function Sidebar() {
           <MdDashboardCustomize size={14} className="mt-0.5 mr-2" />
           Dashboard
         </span>
-        <span className="font-geist border rounded-sm text-sm mb-2 cursor-pointer py-1.5 px-1.5 hover:bg-[#f5f5f5] dark:hover:bg-[#1c1c20] flex items-center">
+        <span
+          className="font-geist border rounded-sm text-sm mb-2 cursor-pointer py-1.5 px-1.5 hover:bg-[#f5f5f5] dark:hover:bg-[#1c1c20] flex items-center"
+          onClick={() => navigate("/dashboard/add-expense")}
+        >
           <IoIosAddCircle size={14} className="mt-0.5 mr-2" />
           Add Expense
         </span>
@@ -34,7 +37,10 @@ function Sidebar() {
           <BiSolidPieChartAlt2 size={14} className="mt-0.5 mr-2" />
           Analytics
         </span>
-        <span className="font-geist border rounded-sm text-sm mb-2 cursor-pointer py-1.5 px-1.5 hover:bg-[#f5f5f5] dark:hover:bg-[#1c1c20] flex items-center">
+        <span
+          className="font-geist border rounded-sm text-sm mb-2 cursor-pointer py-1.5 px-1.5 hover:bg-[#f5f5f5] dark:hover:bg-[#1c1c20] flex items-center"
+          onClick={() => navigate("/dashboard/settings")}
+        >
           <IoMdSettings size={14} className="mt-0.5 mr-2" />
           Settings
         </span>

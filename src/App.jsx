@@ -9,6 +9,8 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
 import Overview from "./pages/Overview";
 import Analytics from "./pages/Analytics";
+import AddExpense from "./pages/AddExpense";
+import Settings from "./pages/Settings";
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
@@ -29,6 +31,8 @@ export default function App() {
         >
           <Route index element={<Overview />} />
           <Route path="analytics" element={<Analytics />} />{" "}
+          <Route path="add-expense" element={<AddExpense />} />{" "}
+          <Route path="settings" element={<Settings />} />{" "}
         </Route>
       </Routes>
     </BrowserRouter>
