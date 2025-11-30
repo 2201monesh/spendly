@@ -121,4 +121,11 @@
 
 @theme {
   --font-instrument: "Instrument Serif", serif;
+  --font-geist: "Geist", sans-serif;
+}
+
+@layer utilities {
+  .font-geist {
+    font-family: var(--font-geist);
+  }
 }

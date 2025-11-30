@@ -7,6 +7,8 @@ import { LoginForm } from "./components/login-form";
 import { SignupForm } from "./components/signup-form";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./routes/ProtectedRoute";
+import Overview from "./pages/Overview";
+import Analytics from "./pages/Analytics";
 
 export default function App() {
   const { theme, toggleTheme } = useTheme();
@@ -24,7 +26,10 @@ export default function App() {
               <Dashboard />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route index element={<Overview />} />
+          <Route path="analytics" element={<Analytics />} />{" "}
+        </Route>
       </Routes>
     </BrowserRouter>
   );
