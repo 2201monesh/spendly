@@ -6,7 +6,7 @@ import { PiChartLineUp, PiChartLineDown } from "react-icons/pi";
 
 function Overview() {
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="flex flex-col items-center w-full h-full overflow-y-auto">
       {/* Cards Section */}
       <div className="flex w-full justify-between items-center">
         <Cards heading="Total Balance" logo={<BiMoneyWithdraw size={30} />} />

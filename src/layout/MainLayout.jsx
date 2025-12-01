@@ -23,9 +23,11 @@ function MainLayout() {
   };
 
   return (
-    <div className="w-full h-screen border">
-      <div className="w-full border-b p-3 h-14 flex items-center font-geist justify-between">
+    <div className="w-full h-screen flex flex-col">
+      {/* 🔥 Sticky Header */}
+      <div className="w-full border-b p-3 h-14 flex items-center justify-between font-geist sticky top-0 bg-background z-50">
         <span>{title}</span>
+
         <div className="flex items-center gap-4">
           <ToggleSwitch />
           <Button
@@ -37,7 +39,9 @@ function MainLayout() {
           </Button>
         </div>
       </div>
-      <div className="flex-1 overflow-auto p-4">
+
+      {/* 🔥 Scrollable Content */}
+      <div className="flex-1 overflow-y-auto p-4">
         <Outlet />
       </div>
     </div>
