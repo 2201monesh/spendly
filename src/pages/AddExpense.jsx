@@ -10,6 +10,8 @@ import {
 } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 
+import { supabase } from "@/lib/supabaseClient";
+
 import {
   Select,
   SelectContent,
@@ -36,6 +38,8 @@ function AddExpense() {
   const [month, setMonth] = useState(date);
   const [value, setValue] = useState(formatDate(date));
   const [type, setType] = useState("expense");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
 
   const formatIndian = (value) => {
     const cleaned = value.replace(/,/g, "");
@@ -54,6 +58,49 @@ function AddExpense() {
     if (value) value = formatIndian(value);
 
     setAmount(value);
+  };
+
+  // const handleSubmit = () => {
+  //   const formattedData = {
+  //     amount: Number(amount.replace(/,/g, "")),
+  //     date: formatDate(date),
+  //     type,
+  //     description,
+  //     category,
+  //   };
+
+  //   console.log("Transaction Added:");
+  //   console.table(formattedData);
+  // };
+
+  const handleSubmit = async () => {
+    const cleanedAmount = Number(amount.replace(/,/g, ""));
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      console.log("User not logged in");
+      return;
+    }
+
+    const { data, error } = await supabase.from("transactions").insert([
+      {
+        user_id: user.id,
+        amount: cleanedAmount,
+        date: date.toISOString(),
+        type,
+        description,
+        category,
+      },
+    ]);
+
+    if (error) {
+      console.error("Supabase Insert Error:", error);
+    } else {
+      console.log("Inserted Transaction:", data);
+    }
   };
 
   return (
@@ -161,11 +208,15 @@ function AddExpense() {
         </div>
 
         <div>
-          <Input placeholder="description" />
+          <Input
+            placeholder="description"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
         </div>
 
         <div className="w-full">
-          <Select>
+          <Select onValueChange={setCategory}>
             <SelectTrigger className="w-full">
               <SelectValue placeholder="Select a Category" />
             </SelectTrigger>
@@ -183,7 +234,9 @@ function AddExpense() {
         </div>
 
         <div>
-          <Button className="cursor-pointer w-full">Add Transaction</Button>
+          <Button onClick={handleSubmit} className="cursor-pointer w-full">
+            Add Transaction
+          </Button>
         </div>
       </div>
     </div>
