@@ -10,6 +10,16 @@ import {
 } from "@/components/ui/popover";
 import { CalendarIcon } from "lucide-react";
 
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 function formatDate(date) {
   if (!date) return "";
   return date.toLocaleDateString("en-IN", {
@@ -25,8 +35,8 @@ function AddExpense() {
   const [date, setDate] = useState(new Date());
   const [month, setMonth] = useState(date);
   const [value, setValue] = useState(formatDate(date));
+  const [type, setType] = useState("expense");
 
-  // ---------- Amount Format ----------
   const formatIndian = (value) => {
     const cleaned = value.replace(/,/g, "");
     if (cleaned === "") return "";
@@ -48,7 +58,7 @@ function AddExpense() {
 
   return (
     <div className="w-full h-full flex items-center justify-center">
-      <div className="w-110 h-140 border-2 rounded-xl p-6 flex flex-col gap-6">
+      <div className="w-110 h-130 border-2 rounded-xl p-6 flex flex-col gap-6">
         <p className="flex items-center justify-center font-geist text-lg">
           New transaction
         </p>
@@ -124,6 +134,56 @@ function AddExpense() {
               </PopoverContent>
             </Popover>
           </div>
+        </div>
+
+        <div className="flex flex-col gap-2 w-full">
+          <div className="flex w-full">
+            <div className="flex w-full bg-muted p-1 rounded-lg">
+              <button
+                onClick={() => setType("income")}
+                className={`w-1/2 py-1 rounded-md font-geist transition text-center
+          ${type === "income" ? "bg-primary text-primary-foreground" : ""}
+        `}
+              >
+                Income
+              </button>
+
+              <button
+                onClick={() => setType("expense")}
+                className={`w-1/2 py-1 rounded-md font-geist transition text-center
+          ${type === "expense" ? "bg-primary text-primary-foreground" : ""}
+        `}
+              >
+                Expense
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <Input placeholder="description" />
+        </div>
+
+        <div className="w-full">
+          <Select>
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Select a Category" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Fruits</SelectLabel>
+                <SelectItem value="rent">Rent</SelectItem>
+                <SelectItem value="internet">Internet</SelectItem>
+                <SelectItem value="food">Food</SelectItem>
+                <SelectItem value="shopping">Shopping</SelectItem>
+                <SelectItem value="gas">Gas</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+        </div>
+
+        <div>
+          <Button className="cursor-pointer w-full">Add Transaction</Button>
         </div>
       </div>
     </div>
