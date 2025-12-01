@@ -24,7 +24,6 @@ function MainLayout() {
 
   return (
     <div className="w-full h-screen flex flex-col">
-      {/* 🔥 Sticky Header */}
       <div className="w-full border-b p-3 h-14 flex items-center justify-between font-geist sticky top-0 bg-background z-50">
         <span>{title}</span>
 
@@ -40,7 +39,6 @@ function MainLayout() {
         </div>
       </div>
 
-      {/* 🔥 Scrollable Content */}
       <div className="flex-1 overflow-y-auto p-4">
         <Outlet />
       </div>
