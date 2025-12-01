@@ -8,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, CheckCircle2Icon } from "lucide-react";
 
 import { supabase } from "@/lib/supabaseClient";
 
@@ -21,6 +21,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Alert, AlertTitle } from "@/components/ui/alert";
 
 function formatDate(date) {
   if (!date) return "";
@@ -40,6 +41,8 @@ function AddExpense() {
   const [type, setType] = useState("expense");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
+  const [showAlert, setShowAlert] = useState(false);
+  const [alertMessage, setAlertMessage] = useState("");
 
   const formatIndian = (value) => {
     const cleaned = value.replace(/,/g, "");
@@ -59,19 +62,6 @@ function AddExpense() {
 
     setAmount(value);
   };
-
-  // const handleSubmit = () => {
-  //   const formattedData = {
-  //     amount: Number(amount.replace(/,/g, "")),
-  //     date: formatDate(date),
-  //     type,
-  //     description,
-  //     category,
-  //   };
-
-  //   console.log("Transaction Added:");
-  //   console.table(formattedData);
-  // };
 
   const handleSubmit = async () => {
     const cleanedAmount = Number(amount.replace(/,/g, ""));
@@ -100,11 +90,23 @@ function AddExpense() {
       console.error("Supabase Insert Error:", error);
     } else {
       console.log("Inserted Transaction:", data);
+      setAlertMessage("Success! Your data is saved successfully");
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3000);
     }
   };
 
   return (
     <div className="w-full h-full flex items-center justify-center">
+      {/* Toast Alert at Bottom Right */}
+      {showAlert && (
+        <div className="fixed bottom-6 right-4 z-50">
+          <Alert className="flex items-center gap-2 bg-green-100 border-green-300 shadow-lg">
+            <CheckCircle2Icon className="text-green-600" />
+            <AlertTitle>{alertMessage}</AlertTitle>
+          </Alert>
+        </div>
+      )}
       <div className="w-110 h-130 border-2 rounded-xl p-6 flex flex-col gap-6">
         <p className="flex items-center justify-center font-geist text-lg">
           New transaction
