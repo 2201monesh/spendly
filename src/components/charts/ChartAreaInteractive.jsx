@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { Area, AreaChart, CartesianGrid, XAxis } from "recharts";
 
 import {
@@ -60,13 +60,56 @@ const chartConfig = {
 // -------------------------
 // Component
 // -------------------------
-export default function ChartAreaInteractive() {
+export default function ChartAreaInteractive({ transactions }) {
   const [timeRange, setTimeRange] = React.useState("90d");
 
-  const filteredData = chartData.filter((item) => {
-    const date = new Date(item.date);
-    const referenceDate = new Date("2024-06-30");
+  // const filteredData = chartData.filter((item) => {
+  //   const date = new Date(item.date);
+  //   const referenceDate = new Date("2024-06-30");
 
+  //   let daysToSubtract = 90;
+  //   if (timeRange === "30d") daysToSubtract = 30;
+  //   else if (timeRange === "7d") daysToSubtract = 7;
+
+  //   const startDate = new Date(referenceDate);
+  //   startDate.setDate(startDate.getDate() - daysToSubtract);
+
+  //   return date >= startDate;
+  // });
+
+  // const chartData = useMemo(() => {
+  //   if (!transactions) return [];
+
+  //   // group by date
+  //   const grouped = {};
+  //   transactions.forEach((t) => {
+  //     const date = new Date(t.created_at).toISOString().split("T")[0];
+  //     if (!grouped[date]) grouped[date] = { date, income: 0, expense: 0 };
+  //     if (t.type === "income") grouped[date].income += parseFloat(t.amount);
+  //     else grouped[date].expense += parseFloat(t.amount);
+  //   });
+
+  //   const dataArray = Object.values(grouped).sort(
+  //     (a, b) => new Date(a.date) - new Date(b.date)
+  //   );
+
+  //   // filter by time range
+  //   const referenceDate = new Date();
+  //   let daysToSubtract = 90;
+  //   if (timeRange === "30d") daysToSubtract = 30;
+  //   else if (timeRange === "7d") daysToSubtract = 7;
+
+  //   const startDate = new Date(referenceDate);
+  //   startDate.setDate(startDate.getDate() - daysToSubtract);
+
+  //   return dataArray.filter((d) => new Date(d.date) >= startDate);
+  // }, [transactions, timeRange]);
+
+  const chartData = useMemo(() => {
+    if (!transactions) return [];
+
+    // Get reference date & time range
+    const referenceDate = new Date();
     let daysToSubtract = 90;
     if (timeRange === "30d") daysToSubtract = 30;
     else if (timeRange === "7d") daysToSubtract = 7;
@@ -74,8 +117,32 @@ export default function ChartAreaInteractive() {
     const startDate = new Date(referenceDate);
     startDate.setDate(startDate.getDate() - daysToSubtract);
 
-    return date >= startDate;
-  });
+    // Group transactions by date
+    const grouped = {};
+    transactions.forEach((t) => {
+      const date = new Date(t.date).toISOString().split("T")[0];
+      if (!grouped[date]) grouped[date] = { income: 0, expense: 0 };
+      if (t.type === "income") grouped[date].income += parseFloat(t.amount);
+      else grouped[date].expense += parseFloat(t.amount);
+    });
+
+    // Generate all dates in the range
+    const dataArray = [];
+    for (
+      let d = new Date(startDate);
+      d <= referenceDate;
+      d.setDate(d.getDate() + 1)
+    ) {
+      const dateStr = d.toISOString().split("T")[0];
+      dataArray.push({
+        date: dateStr,
+        income: grouped[dateStr]?.income || 0,
+        expense: grouped[dateStr]?.expense || 0,
+      });
+    }
+
+    return dataArray;
+  }, [transactions, timeRange]);
 
   return (
     <Card className="pt-0 mt-8 w-full">
@@ -103,7 +170,7 @@ export default function ChartAreaInteractive() {
           config={chartConfig}
           className="aspect-auto h-[250px] w-full"
         >
-          <AreaChart data={filteredData}>
+          <AreaChart data={chartData}>
             {/* Gradient Fills */}
             <defs>
               <linearGradient id="fillDesktop" x1="0" y1="0" x2="0" y2="1">
@@ -169,14 +236,14 @@ export default function ChartAreaInteractive() {
 
             {/* Areas */}
             <Area
-              dataKey="mobile"
+              dataKey="income"
               type="natural"
               fill="url(#fillMobile)"
               stroke="var(--color-mobile)"
               stackId="a"
             />
             <Area
-              dataKey="desktop"
+              dataKey="expense"
               type="natural"
               fill="url(#fillDesktop)"
               stroke="var(--color-desktop)"
