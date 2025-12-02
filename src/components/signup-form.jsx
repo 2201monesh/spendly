@@ -38,14 +38,23 @@ export function SignupForm({ ...props }) {
       return;
     }
 
-    const { error } = await signup(form.email, form.password);
-    // await supabase.from("profiles").insert({
-    //   id: data.user.id,
-    //   full_name: form.name,
-    // });
+    const { data, error } = await signup(form.email, form.password);
+    await supabase.from("profiles").insert({
+      id: data.user.id,
+      full_name: form.name,
+      email: form.email,
+      password: form.password,
+    });
 
     if (error) {
       alert(error.message);
+      return;
+    }
+
+    const user = data.user ?? data.session?.user;
+
+    if (!user) {
+      alert("Signup successful! Please check your email to verify.");
       return;
     }
 

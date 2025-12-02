@@ -41,7 +41,7 @@ export function LoginForm({ className, ...props }) {
     setErrorMsg("");
     setLoading(true);
 
-    const { error } = await supabase.auth.signInWithPassword({
+    const { data, error } = await supabase.auth.signInWithPassword({
       email: form.email,
       password: form.password,
     });
@@ -50,6 +50,13 @@ export function LoginForm({ className, ...props }) {
 
     if (error) {
       setErrorMsg(error.message);
+      return;
+    }
+
+    const user = data.user ?? data.session?.user;
+
+    if (!user) {
+      setErrorMsg("Login failed!");
       return;
     }
 
