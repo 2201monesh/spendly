@@ -29,6 +29,7 @@ function MainLayout() {
 
         <div className="flex items-center gap-4">
           <ToggleSwitch />
+          <span className="ml-[-20px]">dark</span>
           <Button
             variant="outline"
             className="cursor-pointer"
