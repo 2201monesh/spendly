@@ -11,7 +11,7 @@ function MainLayout() {
   const pageTitles = {
     "/dashboard": "Dashboard",
     "/dashboard/analytics": "Analytics",
-    "/dashboard/add-expense": "Add Expense",
+    "/dashboard/add-expense": "Add Transaction",
     "/dashboard/settings": "Settings",
   };
 
