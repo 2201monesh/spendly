@@ -4,6 +4,7 @@ import { supabase } from "@/lib/supabaseClient";
 import React, { useEffect, useState } from "react";
 import { BiMoneyWithdraw } from "react-icons/bi";
 import { PiChartLineUp, PiChartLineDown } from "react-icons/pi";
+import { RiMoneyDollarCircleFill } from "react-icons/ri";
 
 function Overview() {
   const [totalIncome, setTotalIncome] = useState(0);
@@ -50,29 +51,34 @@ function Overview() {
   }, []);
 
   return (
-    <div className="flex flex-col items-center w-full h-full overflow-y-auto">
+    <div className="flex flex-col w-full h-full overflow-y-auto">
       {/* Cards Section */}
-      <div className="flex w-full justify-between items-center">
+      <div className="grid w-[50%] grid-cols-2 gap-2">
         <Cards
-          heading="Total Balance"
+          heading="Income"
           amount={totalBalance}
-          logo={<BiMoneyWithdraw size={30} />}
+          logo={<RiMoneyDollarCircleFill size={22} />}
         />
         <Cards
-          heading="Total Expense"
+          heading="Expense"
           amount={totalExpense}
-          logo={<PiChartLineDown size={30} />}
+          logo={<RiMoneyDollarCircleFill size={22} />}
         />
         <Cards
-          heading="Total Income"
+          heading="Savings"
           amount={totalIncome}
-          logo={<PiChartLineUp size={30} />}
+          logo={<RiMoneyDollarCircleFill size={22} />}
+        />
+        <Cards
+          heading="Investment"
+          amount={totalIncome}
+          logo={<RiMoneyDollarCircleFill size={22} />}
         />
       </div>
 
-      <div className="w-full">
+      {/* <div className="w-full">
         <ChartAreaInteractive transactions={transactions} />
-      </div>
+      </div> */}
     </div>
   );
 }
