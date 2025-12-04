@@ -52,28 +52,32 @@ function Overview() {
 
   return (
     <div className="flex flex-col w-full h-full overflow-y-auto">
-      {/* Cards Section */}
-      <div className="grid w-[50%] grid-cols-2 gap-2">
-        <Cards
-          heading="Income"
-          amount={totalBalance}
-          logo={<RiMoneyDollarCircleFill size={22} />}
-        />
-        <Cards
-          heading="Expense"
-          amount={totalExpense}
-          logo={<RiMoneyDollarCircleFill size={22} />}
-        />
-        <Cards
-          heading="Savings"
-          amount={totalIncome}
-          logo={<RiMoneyDollarCircleFill size={22} />}
-        />
-        <Cards
-          heading="Investment"
-          amount={totalIncome}
-          logo={<RiMoneyDollarCircleFill size={22} />}
-        />
+      <div className="w-[50%]">
+        <div className="grid w-full grid-cols-2 gap-2">
+          <Cards
+            heading="Income"
+            amount={totalBalance}
+            logo={<RiMoneyDollarCircleFill size={22} />}
+          />
+          <Cards
+            heading="Expense"
+            amount={totalExpense}
+            logo={<RiMoneyDollarCircleFill size={22} />}
+          />
+          <Cards
+            heading="Savings"
+            amount={totalIncome}
+            logo={<RiMoneyDollarCircleFill size={22} />}
+          />
+          <Cards
+            heading="Investment"
+            amount={totalIncome}
+            logo={<RiMoneyDollarCircleFill size={22} />}
+          />
+        </div>
+        <div className="w-full">
+          <ChartAreaInteractive transactions={transactions} />
+        </div>
       </div>
 
       {/* <div className="w-full">

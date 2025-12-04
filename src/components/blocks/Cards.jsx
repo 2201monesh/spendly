@@ -2,7 +2,7 @@ import React from "react";
 
 function Cards({ heading, amount, logo }) {
   return (
-    <div className="w-72 h-24 rounded-xl p-4 border dark:bg-[#18181b]">
+    <div className="w-full h-24 rounded-xl p-4 border dark:bg-[#18181b]">
       <div className="flex items-center">
         <span className="mr-2">{logo}</span>
         <span>{heading}</span>
